@@ -122,22 +122,25 @@ async def getlist():
             if country.isVassal:
                 name = '-'+country.name
             message = message + (name) +'\n'
-    bot.say(message)
+    await bot.say(message)
 
 @bot.command(pass_context = True)
 async def create(ctx):
     inputImage = 'original.png'
     outputImage = 'final.png'
     user_agent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7'
-    URL = ctx.message.attachments[0]['url']
-    req = urllib.request.Request(URL, headers={'User-Agent': user_agent})
-    with urllib.request.urlopen(req) as url:
-        with open(inputImage, 'wb') as f:
-            f.write(url.read())
-    await bot.say('Processing')
-    changeColors(inputImage).save(outputImage)
-    await bot.say('Done')
-    await bot.send_file(bot.get_channel("336262010033405952"), open(outputImage, 'rb'))
+    if len(ctx.message.attachments) > 0:
+        await bot.say('Processing')
+        URL = ctx.message.attachments[0]['url']
+        req = urllib.request.Request(URL, headers={'User-Agent': user_agent})
+        with urllib.request.urlopen(req) as url:
+            with open(inputImage, 'wb') as f:
+                f.write(url.read())
+        changeColors(inputImage).save(outputImage)
+        await bot.send_file(bot.get_channel("336262010033405952"), open(outputImage, 'rb'))
+        await bot.say('Done')
+    else:
+        await bot.say('Invalid command entry, upload an image and type "%create" in the "add a comment" part')
 
 
 bot.run('MzUwNDQxNjIyNTIzMjE1ODc0.DIEFvQ.zPhtXRqXEF1z3Kmqc7K0K8aqBtg')

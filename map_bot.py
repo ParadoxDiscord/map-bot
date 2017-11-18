@@ -143,4 +143,4 @@ async def create(ctx):
         await bot.say('Invalid command entry, upload an image and type "%create" in the "add a comment" part')
 
 
-bot.run('MzUwNDQxNjIyNTIzMjE1ODc0.DIEFvQ.zPhtXRqXEF1z3Kmqc7K0K8aqBtg')
+bot.run()
